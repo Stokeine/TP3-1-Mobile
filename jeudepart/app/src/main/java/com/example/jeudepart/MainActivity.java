@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     //
     private EditText txtNumber;
