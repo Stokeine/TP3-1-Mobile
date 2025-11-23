@@ -60,6 +60,8 @@ public class ConnexionActivity extends AppCompatActivity {
                 Toast.makeText(this, "Connexion réussie! Bienvenue " + user.getPrenom(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ConnexionActivity.this, MainActivity.class);
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
                 startActivity(intent);
                 finish();
             } else {

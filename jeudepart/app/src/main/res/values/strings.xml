@@ -9,4 +9,9 @@
     <string name="strMessage"> Félicitations, vous gagnez aprés % d essais. Voulez-vous réessayer?</string>
     <string name="strYes">Oui</string>
     <string name="strNo">Non</string>
+    <string name="firstName">Prénom</string>
+    <string name="lastName">Nom</string>
+    <string name="country">Pays</string>
+    <string name="score">0</string>
+    <string name="date">2021–10-22</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
+import com.example.jeudepart.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
     //
@@ -26,11 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
     private int searchedValue;
     private int score;
+    private DatabaseHelper dbHelper;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbHelper = new DatabaseHelper(this);
+        String email = getIntent().getStringExtra("email");
+        String password = getIntent().getStringExtra("password");
+        getConnectedUser(email, password);
 
         txtNumber = (EditText) findViewById( R.id.txtNumber );
         btnCompare = (Button) findViewById( R.id.btnCompare );
@@ -39,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         lblHistory = (TextView) findViewById( R.id.lblHistory );
 
         btnCompare.setOnClickListener( btnCompareListener );
+        Button btfAfficherList = findViewById(R.id.afficherList);
 
         init();
 
@@ -48,8 +58,19 @@ public class MainActivity extends AppCompatActivity {
 
         DateFormat dataFormatter = DateFormat.getDateTimeInstance();
         Log.i( "DEBUG", dataFormatter.format( new Date() ) );
+
+        btfAfficherList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
+    private void getConnectedUser(String email, String password) {
+        currentUser = dbHelper.readUser(email, password);
+    }
     private void init() {
         score = 0;
         searchedValue = 1 + (int) (Math.random() * 100);
@@ -61,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         lblHistory.setText( "" );
 
         txtNumber.requestFocus();
+
     }
 
     private void congratulations() {
@@ -69,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog retryAlert = new AlertDialog.Builder( this ).create();
         retryAlert.setTitle( R.string.app_name );
         retryAlert.setMessage( getString(R.string.strMessage, score ) );
+
+        dbHelper.insertMatch(new Match(currentUser, score, new Date()));
 
         retryAlert.setButton( AlertDialog.BUTTON_POSITIVE, getString(R.string.strYes), new AlertDialog.OnClickListener() {
             @Override
