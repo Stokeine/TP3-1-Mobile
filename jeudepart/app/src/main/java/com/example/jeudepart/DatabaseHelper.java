@@ -18,7 +18,7 @@ import java.util.List;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "game_db.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,20 +58,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             return matches;
 
         }catch (Exception e){
-            return new ArrayList<>();
-        }
-    }
-
-
-    public List<Match> readMatches(User user) {
-        try {
-            Dao<Match, Integer> dao = getDao(Match.class);
-            QueryBuilder<Match, Integer> queryBuilder = dao.queryBuilder();
-            Where<Match, Integer> where = queryBuilder.where();
-            where.eq("user_id", user.getUser_id());
-            List<Match> matches = queryBuilder.query();
-            return matches;
-        } catch (Exception exception) {
             return new ArrayList<>();
         }
     }
