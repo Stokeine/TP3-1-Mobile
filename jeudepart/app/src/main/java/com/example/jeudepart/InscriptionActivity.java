@@ -75,6 +75,15 @@ public class InscriptionActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button seConnecterBtn = findViewById(R.id.seConnecterBtn);
+        seConnecterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InscriptionActivity.this, ConnexionActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private boolean verifAccount(){
